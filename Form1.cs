@@ -7,14 +7,117 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VkNet;
+using VkNet.Model;
+using VkNet.Model.RequestParams;
+using System.IO;
+      //07cf15fc88748b2489ad21776fa4b4a384e01eaaab9420031dd84017ae8f22b431c0ca8783f2b2936671a
 
 namespace sdfg
 {
     public partial class Form1 : Form
     {
+        
         public Form1()
         {
             InitializeComponent();
+            
+        }
+        public static string getAuthForGroup()
+        {
+            string fileName = @"роп.txt";
+            string token = "";
+            try
+            {
+                using (StreamReader sr = new StreamReader(fileName))
+                {
+                    token = sr.ReadLine();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return token;
+        }
+        public static string getAuthForUser()
+        {
+            string fileName = @"роп.txt";
+            string token = "";
+            try
+            {
+                using (StreamReader sr = new StreamReader(fileName))
+                {
+                    sr.ReadLine();
+                    token = sr.ReadLine();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return token;
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var api_group = new VkApi();
+            api_group.Authorize(new ApiAuthParams
+            {
+                AccessToken = getAuthForGroup()
+            });
+            if (radioButton1.Checked)
+            {
+                var getFollowers = api_group.Groups.GetMembers(new GroupsGetMembersParams()
+                {
+                    GroupId = textBox2.Text,
+                    Fields = VkNet.Enums.Filters.UsersFields.FirstNameAbl,
+                    Count = 5
+                });
+
+                foreach (User user in getFollowers)
+                {
+
+                    byte[] bytes = Encoding.Default.GetBytes(user.FirstName + " " + user.LastName + " ");
+                    textBox3.Text += Encoding.UTF8.GetString(bytes);
+                    if (checkBox1.Checked)
+                    {
+                        byte[] bytes1 = Encoding.Default.GetBytes(user.Status);
+                        textBox3.Text += " ";
+                        textBox3.Text += Encoding.UTF8.GetString(bytes1);
+                    }
+                    if (checkBox2.Checked)
+                    {
+                        if (Convert.ToBoolean(user.Online))
+                            textBox3.Text += "онлайн ";
+                        else
+                            textBox3.Text += "не онлайн ";
+                    }
+
+                    if (checkBox3.Checked)
+                    {
+                        byte[] bytes1 = Encoding.Default.GetBytes(user.BirthDate);
+                        textBox3.Text += " ";
+                        textBox3.Text += Encoding.UTF8.GetString(bytes1);
+                    }
+                    textBox3.Text += Environment.NewLine;
+                }
+            }
+            if (radioButton2.Checked)
+            {
+                var users = api_group.Friends.Get(new VkNet.Model.RequestParams.FriendsGetParams
+                {
+                    UserId = Convert.ToInt32(textBox1.Text),
+                    Count = 10,
+
+                });
+                foreach (var item in users)
+                {
+                    var p = api_group.Users.Get(new long[] { item.Id }).FirstOrDefault();
+
+                    byte[] bytes = Encoding.Default.GetBytes(p.FirstName);
+                    MessageBox.Show(Encoding.UTF8.GetString(bytes));
+                }
+            }
         }
     }
 }

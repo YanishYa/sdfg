@@ -16,7 +16,7 @@ namespace sdfg
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new API());
+            Application.Run(new Form1());
         }
     }
 }

@@ -19,7 +19,10 @@ namespace sdfg
 
         private void API_Load(object sender, EventArgs e)
         {
-            MessageBox.Show("хахаха, вы затралены");
+            Form Yaform = new Form1();
+            Yaform.Show();
+            Form OpeningForm = new API();
+            OpeningForm.Close();
         }
     }
 }
