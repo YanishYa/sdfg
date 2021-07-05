@@ -79,13 +79,13 @@ namespace sdfg
 
                     byte[] bytes = Encoding.Default.GetBytes(user.FirstName + " " + user.LastName + " ");
                     textBox3.Text += Encoding.UTF8.GetString(bytes);
-                    if (checkBox1.Checked)
+                    if (checkBox1.Checked && user.Status != null)
                     {
                         byte[] bytes1 = Encoding.Default.GetBytes(user.Status);
-                        textBox3.Text += " ";
                         textBox3.Text += Encoding.UTF8.GetString(bytes1);
+                        textBox3.Text += " ";
                     }
-                    if (checkBox2.Checked)
+                    if (checkBox2.Checked && user.Online != null)
                     {
                         if (Convert.ToBoolean(user.Online))
                             textBox3.Text += "онлайн ";
@@ -93,7 +93,7 @@ namespace sdfg
                             textBox3.Text += "не онлайн ";
                     }
 
-                    if (checkBox3.Checked)
+                    if (checkBox3.Checked && user.BirthDate != null)
                     {
                         byte[] bytes1 = Encoding.Default.GetBytes(user.BirthDate);
                         textBox3.Text += " ";
