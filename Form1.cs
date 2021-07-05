@@ -60,23 +60,23 @@ namespace sdfg
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            textBox3.Text = "";
             var api_group = new VkApi();
             api_group.Authorize(new ApiAuthParams
             {
-                AccessToken = getAuthForGroup()
+                AccessToken = "9b9f96763cb2e007b127a1861281a71099ea99906c66fecfa3af58a08aeb0cc32df70e63b46b782a146b4"
             });
             if (radioButton1.Checked)
             {
                 var getFollowers = api_group.Groups.GetMembers(new GroupsGetMembersParams()
                 {
                     GroupId = textBox2.Text,
-                    Fields = VkNet.Enums.Filters.UsersFields.FirstNameAbl,
+                    Fields = VkNet.Enums.Filters.UsersFields.All,
                     Count = 5
                 });
 
                 foreach (User user in getFollowers)
                 {
-
                     byte[] bytes = Encoding.Default.GetBytes(user.FirstName + " " + user.LastName + " ");
                     textBox3.Text += Encoding.UTF8.GetString(bytes);
                     if (checkBox1.Checked && user.Status != null)
@@ -107,17 +107,42 @@ namespace sdfg
                 var users = api_group.Friends.Get(new VkNet.Model.RequestParams.FriendsGetParams
                 {
                     UserId = Convert.ToInt32(textBox1.Text),
-                    Count = 10,
-
+                    Count = 5,
+                    Fields = VkNet.Enums.Filters.ProfileFields.All,
                 });
-                foreach (var item in users)
+                foreach (var user in users)
                 {
-                    var p = api_group.Users.Get(new long[] { item.Id }).FirstOrDefault();
+                    byte[] bytes = Encoding.Default.GetBytes(user.FirstName + " " + user.LastName + " ");
+                    textBox3.Text += Encoding.UTF8.GetString(bytes);
+                    if (checkBox1.Checked && user.Status != null)
+                    {
+                        byte[] bytes1 = Encoding.Default.GetBytes(user.Status);
+                        textBox3.Text += Encoding.UTF8.GetString(bytes1);
+                        textBox3.Text += " ";
+                    }
+                    if (checkBox2.Checked && user.Online != null)
+                    {
+                        if (Convert.ToBoolean(user.Online))
+                            textBox3.Text += "онлайн ";
+                        else
+                            textBox3.Text += "не онлайн ";
+                    }
 
-                    byte[] bytes = Encoding.Default.GetBytes(p.FirstName);
-                    MessageBox.Show(Encoding.UTF8.GetString(bytes));
-                }
+                    if (checkBox3.Checked && user.BirthDate != null)
+                    {
+                        byte[] bytes1 = Encoding.Default.GetBytes(user.BirthDate);
+                        textBox3.Text += " ";
+                        textBox3.Text += Encoding.UTF8.GetString(bytes1);
+                    }
+                    textBox3.Text += Environment.NewLine;
+                
             }
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
