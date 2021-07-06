@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VkNet;
-using VkNet.Model;
-using VkNet.Model.RequestParams;
-using System.IO;
+    using VkNet.Model;
+    using VkNet.Model.RequestParams;
+    using System.IO;
       //07cf15fc88748b2489ad21776fa4b4a384e01eaaab9420031dd84017ae8f22b431c0ca8783f2b2936671a
 
 namespace sdfg
@@ -64,7 +64,7 @@ namespace sdfg
             var api_group = new VkApi();
             api_group.Authorize(new ApiAuthParams
             {
-                AccessToken = "9b9f96763cb2e007b127a1861281a71099ea99906c66fecfa3af58a08aeb0cc32df70e63b46b782a146b4"
+                AccessToken = "роп.txt"
             });
             if (radioButton1.Checked)
             {
