@@ -64,8 +64,8 @@ namespace sdfg
             var api_group = new VkApi();
             api_group.Authorize(new ApiAuthParams
             {
-                AccessToken = "роп.txt"
-            });
+                AccessToken = getAuthForGroup()
+            }) ;
             if (radioButton1.Checked)
             {
                 var getFollowers = api_group.Groups.GetMembers(new GroupsGetMembersParams()
