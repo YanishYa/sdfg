@@ -23,6 +23,11 @@ namespace sdfg
 
         private void API_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
             long postId = 0;
             var api_group = new VkApi();
             var api = new VkApi();
@@ -39,18 +44,16 @@ namespace sdfg
             {
                 OwnerId = 157808008,
                 Count = 1
-            }) ;
+            });
             foreach (var item in postList.WallPosts)
             {
-                
+
                 var post = api_group.Wall.Post(new WallPostParams
                 {
                     OwnerId = -203845470,
                     Message = Encoding.UTF8.GetString(Encoding.Default.GetBytes(item.Text)),
-                }) ;
+                });
             }
-            
-
         }
     }
 }

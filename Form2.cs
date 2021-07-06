@@ -58,8 +58,14 @@ namespace sdfg
         }
         private void Form2_Load(object sender, EventArgs e)
         {
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
             int count = 0;
             int sum = 0;
+            int year = 0;
             var api_group = new VkApi();
             api_group.Authorize(new ApiAuthParams
             {
@@ -67,18 +73,21 @@ namespace sdfg
             });
             var users = api_group.Friends.Get(new VkNet.Model.RequestParams.FriendsGetParams
             {
-                UserId = Convert.ToInt32(157808008),
+                UserId = Convert.ToInt32(textBox1.Text),
                 Fields = VkNet.Enums.Filters.ProfileFields.All,
             });
             DateTime today = DateTime.Now;
             foreach (var item in users)
             {
-                string[] tokens = item.BirthDate.Split('.');
-                if (tokens.Length == 2)
+                if (item.BirthDate != null)
                 {
-                    DateTime dt = DateTime.ParseExact(item.BirthDate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
-                    count++;
-                    sum += Convert.ToInt32(today - dt);
+                    string[] tokens = item.BirthDate.Split('.');
+                    if (tokens.Length == 3)
+                    {
+                        year = 2021 - Convert.ToInt32(tokens[2]);
+                        count++;
+                        sum += year;
+                    }
                 }
             }
             MessageBox.Show(Convert.ToString(sum / count));
