@@ -37,12 +37,12 @@ namespace sdfg
             });
             api.Authorize(new ApiAuthParams
             {
-                AccessToken = "9004100f2f62f4eb4e12b5e59aa77a76c07e0aad724512fd261082a5d608d05586a63210e69090b2ec1b7"
+                AccessToken = "3426266c8ccecd7db73989eefd5b07b4b076cff689ec23f7734167b3235eeecbc5e496ae722300a8e1f60"
             });
 
             var postList = api.Wall.Get(new WallGetParams
             {
-                OwnerId = 157808008,
+                OwnerId = Convert.ToInt32(textBox1.Text),
                 Count = 1
             });
             foreach (var item in postList.WallPosts)
@@ -53,7 +53,13 @@ namespace sdfg
                     OwnerId = -203845470,
                     Message = Encoding.UTF8.GetString(Encoding.Default.GetBytes(item.Text)),
                 });
+                label4.Text = Encoding.UTF8.GetString(Encoding.Default.GetBytes(item.Text));
             }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
